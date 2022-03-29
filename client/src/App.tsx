@@ -5,7 +5,7 @@ import './App.css';
 import { Provider, TypedUseSelectorHook, useSelector } from "react-redux";
 import {store} from "./store/store";
 import { RootState } from './store/store';
-import { Main } from './components/login/Main';
+import { Home } from './components/Home/Home';
 
 //const login = useAppSelector<boolean>((login) => login.login);
 
@@ -16,8 +16,8 @@ function App() {
 
   return (
     <>
-            {login? <Main/> : <Login /> }
-
+    <Home/>
+    {/* {login ? <Home/> : <Login /> } */}
     </>
 
   );

@@ -22,6 +22,19 @@ app.post('/login', async (req, res) => {
     }       
 })
 
+app.get('/images', async (req, res) => {
+    try {
+        // console.log(req.body); 
+        const name = await db.getImages();
+        // console.log(name);
+        return res.status(200).json(name);
+    } catch (error) {
+        return res.status(404).json({
+        message: error.message,
+        });
+    }       
+})
+
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, console.log(` Server running on port ${PORT}`))
 

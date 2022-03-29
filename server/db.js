@@ -5,10 +5,10 @@ require('dotenv').config({ path: './mongodb.env' });
 
 const url = `mongodb+srv://${process.env.USERNAME}:${process.env.PASSWORD}@cvbuildercluster.mv3ep.mongodb.net/`
 
-const clcnName = 'cvBuilder_login';
 const db = 'cvBuilder_database';
 
 const getUser = async (username, password) => {
+  const clcnName = 'cvBuilder_login';
     let user;
     const client = new MongoClient(url, { useUnifiedTopology: true }); 
     try {
@@ -22,6 +22,21 @@ const getUser = async (username, password) => {
     return user;
   }; 
 
-module.exports.getUser = getUser;
+const getImages = async () => {
+  const clcnName = 'cvBuilder_templates';
+  let images;
+  const client = new MongoClient(url, { useUnifiedTopology: true }); 
+  try {
+    await client.connect();
+    images = await client.db(db).collection(clcnName).find().toArray();
+    if(!images) throw new Error('Problem with images');
+  } 
+  finally {
+    await client.close();
+  } 
+  return images;
+}; 
 
+module.exports.getUser = getUser;
+module.exports.getImages = getImages;
 

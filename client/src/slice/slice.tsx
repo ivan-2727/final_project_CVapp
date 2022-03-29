@@ -30,28 +30,7 @@ const initialState = { login: false, username: '' } as LoginState
 export const loginSlice = createSlice({ 
   name: 'Login', 
   initialState, 
-  reducers: { 
-    //   login: (state: LoginState, action) => {
-    //     const data = {username: action.payload.username, password: action.payload.password}
-    //     fetch(`http://localhost:8000/login`, {
-    //       method: 'POST', 
-    //       headers: {
-    //         'Content-Type': 'application/json'
-    //       },
-    //       body: JSON.stringify(data),
-    //     })
-    //         .then(res => res.json())
-    //         .then(res => {
-    //             console.log(res)
-    //             if(res.statusCode === 200){
-    //                 state.login = !state.login;
-    //         }
-    //         else{
-    //             alert('no user found!');
-    //         }
-    //     }) 
-    //   }},
-  },
+  reducers: {},
       extraReducers: (builder) => {
         builder.addCase(fetchUser.fulfilled, (state, action) => {
           console.log('///actionpayload',action.payload);
@@ -59,8 +38,6 @@ export const loginSlice = createSlice({
             state.username = action.payload.username
          })
       },
-      
-
     }) 
 
 export const loginActions = loginSlice.actions
