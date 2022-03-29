@@ -1,8 +1,9 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit' 
 
-interface LoginState { 
+interface stateInterface { 
   login: boolean,
-  username: string
+  username: string,
+  favorites: string[]
 } 
 interface Iarg{
     username: string, 
@@ -26,19 +27,24 @@ export const fetchUser = createAsyncThunk(
   }
 )
 
-const initialState = { login: false, username: '' } as LoginState 
+const initialState: stateInterface = { login: false, username: '', favorites: [] }
 export const loginSlice = createSlice({ 
   name: 'Login', 
   initialState, 
-  reducers: {},
-      extraReducers: (builder) => {
-        builder.addCase(fetchUser.fulfilled, (state, action) => {
-          console.log('///actionpayload',action.payload);
-            state.login = !state.login;
-            state.username = action.payload.username
-         })
-      },
+  reducers: {
+    favorite: (state, action) => {
+      state.favorites.push(action.payload);
+    }
+  },
+  extraReducers: (builder) => {
+    builder.addCase(fetchUser.fulfilled, (state, action) => {
+      console.log('///actionpayload',action.payload);
+        state.login = !state.login;
+        state.username = action.payload.username
+      })
+  },
     }) 
 
+export const {favorite} = loginSlice.actions
 export const loginActions = loginSlice.actions
 export default loginSlice.reducer
