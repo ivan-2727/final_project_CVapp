@@ -3,6 +3,10 @@ import {useDispatch, useSelector, TypedUseSelectorHook} from 'react-redux';
 import {favorite} from '../../slice/slice'
 import { RootState } from '../../store/store';
 
+interface propsInterface {
+    set: (id: string) => void,
+}
+
 interface imageInterface {
     id: string,
     img: string
@@ -22,7 +26,7 @@ const contains = (array : string[], item : imageInterface) => {
     return false;
 }
 
-export const Gallery = () => {
+export const Gallery = (props: propsInterface) => {
 
     const dispatch = useDispatch();
 
@@ -57,6 +61,7 @@ export const Gallery = () => {
         dispatch(favorite(id));
     }
 
+
     const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
     const favorites = useAppSelector((s) => s.state.favorites)
     console.log("FAVS", favorites)
@@ -81,7 +86,7 @@ export const Gallery = () => {
     
     <section>
         {
-           state.section==='templates' && state.images.map((e) => {console.log(e.id); return <div key={e.id}><img src={e.img} alt='no'></img><button id={(e.id).toString()} onClick={addFavorites}>Fav</button></div>})
+           state.section==='templates' && state.images.map((e) => {console.log(e.id); return <div key={e.id}><img src={e.img} alt='no' onClick={(event) => {props.set(e.id)}}></img><button id={(e.id).toString()} onClick={addFavorites}>Fav</button></div>})
         }
         {
             state.section==='favorites' && state.images.map((image) => contains(favorites, image)? <img src={image.img} alt='no'></img> : null)

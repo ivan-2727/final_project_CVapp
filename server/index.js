@@ -34,6 +34,18 @@ app.get('/images', async (req, res) => {
         });
     }       
 })
+app.get('/template/:id', async (req, res) => {
+    try {
+        console.log(req.params.id); 
+        const name = await db.getTemp(req.params.id);
+        console.log(name);
+        return res.status(200).json(name.html);
+    } catch (error) {
+        return res.status(404).json({
+        message: error.message,
+        });
+    }       
+})
 
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, console.log(` Server running on port ${PORT}`))
