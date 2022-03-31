@@ -1,0 +1,33 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.template--list {
+  flex-wrap: wrap;
+  flex-direction: row;
+  display: flex;
+}
+
+.template {
+  display: flex;
+  height: 25em;
+  position: relative;
+}
+
+.template--button--fav {
+  position: absolute;
+}
+
+.template--list__editor {
+  width: 20em;
+  background-color: aquamarine;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.template--list__editor .template {
+  height: 12em;
+  margin: 0.8em;
+}

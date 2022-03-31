@@ -1,17 +1,32 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useRef} from 'react'
 import {useDispatch, useSelector, TypedUseSelectorHook} from 'react-redux';
 import {favorite} from '../../slice/slice'
 import { RootState } from '../../store/store';
+
+import { Button } from '@progress/kendo-react-buttons'
+import { PDFExport, savePDF } from '@progress/kendo-react-pdf'
+
+import './cv.css'
 
 interface propsInterface {
     id: string
 }
 
 const CV = (props : propsInterface) => {
+    const pdfExportComponent = useRef<any>(null)
+    const contentArea = useRef<any>(null)
+
+    const handleExportWithComponent = (e:any) => {
+        pdfExportComponent.current.save();
+    }
+
+    const handleExportWithMethod = (e:any) => {
+        savePDF(contentArea.current, { paperSize: 'A4' })
+    }
 
 
-    const[save, setSave] = useState<string | null>(() => {
-        const local = localStorage.getItem('historyState')
+    const[save, setSave] = useState<string>(() => {
+        const local = localStorage.getItem('historyState_' + props.id)
         if(local){
             return local
         }
@@ -34,7 +49,7 @@ const CV = (props : propsInterface) => {
 
 
     const addSection = (e : any) => {
-        setSave(save+'<h1 contenteditable="true">Hello world</h1>');
+        setSave(save+save);
     }
 
     const handleSave = (e:React.FocusEvent<HTMLInputElement>) => {
@@ -47,12 +62,17 @@ const CV = (props : propsInterface) => {
      }, [])
 
     useEffect(() => {
-        localStorage.setItem("historyState", save ? save : '')
+        localStorage.setItem("historyState_" + props.id, save ? save : '')
      }, [save])
      
     return (
-        <div>
-            <div dangerouslySetInnerHTML={{ __html: save? save : '' }} onBlur={handleSave}></div>
+        <div className='editor'>
+            <PDFExport ref={pdfExportComponent} paperSize='A4'>
+            <div ref={contentArea}>
+            <article id={"id"+(props.id).toString()} contentEditable="true" className="template--wrapper" dangerouslySetInnerHTML={{ __html: save? save : '' }} onBlur={handleSave}></article>
+            </div>
+            <Button onClick={handleExportWithMethod}>Export as PDF</Button>
+            </PDFExport>
             <button onClick={addSection}>add</button>
         </div>
     )

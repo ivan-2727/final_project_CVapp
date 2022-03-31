@@ -17,7 +17,7 @@ function App() {
   return (
     <>
     <Home/>
-    {/* {login ? <Home/> : <Login /> } */}
+    {/* { login ? <Home/> : <Login /> } */}
     </>
 
   );

@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react'
 import {useDispatch, useSelector, TypedUseSelectorHook} from 'react-redux';
 import {favorite} from '../../slice/slice'
 import { RootState } from '../../store/store';
+import './gallery.css';
 
 interface propsInterface {
     set: (id: string) => void,
@@ -13,7 +14,8 @@ interface imageInterface {
 }
 interface stateInterface {
     images: imageInterface[]
-    section: string
+    section: string,
+    editor: boolean
 }
 
 const contains = (array : string[], item : imageInterface) => {
@@ -32,7 +34,8 @@ export const Gallery = (props: propsInterface) => {
 
     const [state, setState] = useState <stateInterface> ({
         images: [],
-        section: 'templates'
+        section: 'templates',
+        editor: false
     }); 
         
     
@@ -48,7 +51,8 @@ export const Gallery = (props: propsInterface) => {
         console.log("RES", res);
         setState({
             images: res,
-            section: state.section
+            section: state.section,
+            editor: state.editor
         });
     })}
 
@@ -72,24 +76,29 @@ export const Gallery = (props: propsInterface) => {
         <li onClick={(e) => {
             setState({
                 images: state.images,
-                section: 'templates'
+                section: 'templates',
+                editor: state.editor
             })
         }}>Templates</li>
         <li>Saved</li>
         <li onClick={(e) => {
             setState({
                 images: state.images,
-                section: 'favorites'
+                section: 'favorites',
+                editor: state.editor
             })
         }}>Favorites</li>
     </ul>
     
-    <section>
+    <section className={state.editor? 'template--list__editor' : 'template--list'}>
         {
-           state.section==='templates' && state.images.map((e) => {console.log(e.id); return <div key={e.id}><img src={e.img} alt='no' onClick={(event) => {props.set(e.id)}}></img><button id={(e.id).toString()} onClick={addFavorites}>Fav</button></div>})
+           state.section==='templates' && state.images.map((e) => {console.log(e.id); return <div className='template' key={e.id}><img className='template--images' src={e.img} alt='no' onClick={(event) => {
+               props.set(e.id); 
+               setState({images: state.images, section: state.section, editor: true});
+               }}></img> <button className='template--button--fav' id={(e.id).toString()} onClick={addFavorites}>Fav</button></div>})
         }
         {
-            state.section==='favorites' && state.images.map((image) => contains(favorites, image)? <img src={image.img} alt='no'></img> : null)
+            state.section==='favorites' && state.images.map((image) => contains(favorites, image)? <img className='template--images' src={image.img} alt='no'></img> : null)
         }
     </section>
         

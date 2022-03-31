@@ -1,6 +1,6 @@
 const Nav = () => {
   return (
-    <div>Nav</div>
+    <div>CV Builder</div>
   )
 }
 
