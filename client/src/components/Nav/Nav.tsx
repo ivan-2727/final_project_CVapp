@@ -1,6 +1,7 @@
+import'./Nav.css'
 const Nav = () => {
   return (
-    <div>CV Builder</div>
+    <nav className="navbar">CV Builder</nav>
   )
 }
 

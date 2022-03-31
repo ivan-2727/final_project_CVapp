@@ -4,18 +4,25 @@ import {favorite} from '../../slice/slice'
 import { RootState } from '../../store/store';
 import './gallery.css';
 
+interface cvInterface {
+    id: string,
+    html: string
+}
+
 interface propsInterface {
-    set: (id: string) => void,
+    set: (cv: cvInterface) => void,
 }
 
 interface imageInterface {
     id: string,
-    img: string
+    img: string,
+    html: string
 }
 interface stateInterface {
     images: imageInterface[]
     section: string,
-    editor: boolean
+    editor: boolean,
+    mouseover?: string
 }
 
 const contains = (array : string[], item : imageInterface) => {
@@ -62,43 +69,84 @@ export const Gallery = (props: propsInterface) => {
 
     const addFavorites = (e: React.MouseEvent<HTMLButtonElement>) => {
         const id = (e.target as HTMLButtonElement).id; 
+
         dispatch(favorite(id));
     }
 
 
     const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
     const favorites = useAppSelector((s) => s.state.favorites)
-    console.log("FAVS", favorites)
 
   return (
     <nav>
-     <ul>
+     <ul className='menu'>
         <li onClick={(e) => {
             setState({
                 images: state.images,
                 section: 'templates',
                 editor: state.editor
             })
-        }}>Templates</li>
-        <li>Saved</li>
+        }} className='menu--element'>Templates</li>
+        <li className='menu--element'>Saved</li>
         <li onClick={(e) => {
             setState({
                 images: state.images,
                 section: 'favorites',
                 editor: state.editor
             })
-        }}>Favorites</li>
+        }} className='menu--element'>Favorites</li>
     </ul>
     
     <section className={state.editor? 'template--list__editor' : 'template--list'}>
         {
-           state.section==='templates' && state.images.map((e) => {console.log(e.id); return <div className='template' key={e.id}><img className='template--images' src={e.img} alt='no' onClick={(event) => {
-               props.set(e.id); 
-               setState({images: state.images, section: state.section, editor: true});
-               }}></img> <button className='template--button--fav' id={(e.id).toString()} onClick={addFavorites}>Fav</button></div>})
+           state.section==='templates' && 
+           state.images.map((e) => {
+               return <div className='template' key={e.id}>
+                   <img className='template--images' 
+                   src={e.img} 
+                   id={"img"+e.id}
+                   alt='no' 
+                   onClick={(event) => {
+                   props.set({
+                        id: e.id,
+                        html: e.html
+                    }); 
+                    setState({images: state.images, section: state.section, editor: true});
+                    }}
+                    onMouseEnter={(event) => {
+                        setState({...state, mouseover: (event.target as HTMLElement).id});
+                    }}
+                    onMouseLeave={(event) => {
+                        setState({...state, mouseover: ''});
+                        }}
+                    ></img> 
+                {state.mouseover === 'img'+e.id ? <span title="Add favorite" className='template--button--fav' 
+                id={(e.id).toString()}
+                onMouseEnter={(event) => {
+                    
+                    setState({...state, mouseover: 'img'+(event.target as HTMLElement).id});
+                }} 
+                onMouseLeave={(event) => {
+                    setState({...state, mouseover: ''});
+                    }}
+                onClick={addFavorites}>
+                   &#11088;
+                </span> : null}
+                </div>})
         }
         {
-            state.section==='favorites' && state.images.map((image) => contains(favorites, image)? <img className='template--images' src={image.img} alt='no'></img> : null)
+            state.section==='favorites' && state.images.map((image) => contains(favorites, image)? 
+            <img className='template--images' 
+            src={image.img} 
+            alt='no'
+            onMouseEnter={(event) => {
+                setState({...state, mouseover: (event.target as HTMLElement).id});
+            }}
+            onMouseLeave={(event) => {
+                setState({...state, mouseover: ''});
+                }}>
+                
+            </img> : null)
         }
     </section>
         

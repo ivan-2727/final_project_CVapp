@@ -9,6 +9,7 @@ import { PDFExport, savePDF } from '@progress/kendo-react-pdf'
 import './cv.css'
 
 interface propsInterface {
+    html: string
     id: string
 }
 
@@ -26,27 +27,12 @@ const CV = (props : propsInterface) => {
 
 
     const[save, setSave] = useState<string>(() => {
-        const local = localStorage.getItem('historyState_' + props.id)
+        const local = localStorage.getItem('historyState_'+props.id)
         if(local){
             return local
         }
-        return ''
+        return props.html
     })
-
-    const fecter = async () => {
-//        console.log('props', props)
-        fetch(`http://localhost:8000/template/${props.id}`, {
-       // fetch(`http://localhost:8000/template/0`, {
-        method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-        })
-        .then(res => res.json())
-        .then(res => {
-            setSave(res)
-        })}
-
 
     const addSection = (e : any) => {
         setSave(save+save);
@@ -58,20 +44,16 @@ const CV = (props : propsInterface) => {
     }
      
     useEffect(() => {
-        fecter();
-     }, [])
-
-    useEffect(() => {
-        localStorage.setItem("historyState_" + props.id, save ? save : '')
+        localStorage.setItem("historyState_"+props.id, save ? save : '')
      }, [save])
      
     return (
         <div className='editor'>
             <PDFExport ref={pdfExportComponent} paperSize='A4'>
             <div ref={contentArea}>
-            <article id={"id"+(props.id).toString()} contentEditable="true" className="template--wrapper" dangerouslySetInnerHTML={{ __html: save? save : '' }} onBlur={handleSave}></article>
+            <article id={"id"+(props.id).toString()} contentEditable="true" className="template--wrapper" dangerouslySetInnerHTML={{ __html: props.html ? props.html : '' }} onBlur={handleSave}></article>
             </div>
-            <Button onClick={handleExportWithMethod}>Export as PDF</Button>
+            <Button onClick={handleExportWithMethod} className='editor--button'>Export as PDF</Button>
             </PDFExport>
             <button onClick={addSection}>add</button>
         </div>

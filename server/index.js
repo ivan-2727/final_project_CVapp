@@ -24,9 +24,9 @@ app.post('/login', async (req, res) => {
 
 app.get('/images', async (req, res) => {
     try {
-        // console.log(req.body); 
+        console.log(req.body); 
         const name = await db.getImages();
-        // console.log(name);
+        console.log(name[1]);
         return res.status(200).json(name);
     } catch (error) {
         return res.status(404).json({

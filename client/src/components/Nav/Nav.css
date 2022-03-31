@@ -1,0 +1,10 @@
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
+.navbar {
+  background-color: #0c0c0c;
+  width: 100%;
+  height: 3em;
+  color: #848484;
+  padding: 1em;
+  font-family: "Press Start 2P", cursive;
+  font-size: 1.5em;
+}
