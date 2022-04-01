@@ -39,6 +39,10 @@
   border-radius: 12px;
 }
 /*-----------------------------------------Template id=0 --------------------------------------------*/
+#id0 #inner {
+  line-height: 1.19
+}
+
 #id0 .msg {
   padding: 10px;
   background: #222;
@@ -58,8 +62,8 @@
   background: #266400;
 }
 #id0 .yui-gf {
-  margin-bottom: 2em;
-  padding-bottom: 2em;
+  margin-bottom: 1em;
+  padding-bottom: 1em;
   border-bottom: 1px solid #ccc;
 }
 
