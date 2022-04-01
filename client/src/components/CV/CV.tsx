@@ -8,11 +8,16 @@ import { PDFExport, savePDF } from '@progress/kendo-react-pdf'
 
 import './cv.css'
 
-interface propsInterface { 
+interface setInterface { 
     html: string
     id: string
 }
 
+interface propsInterface { 
+    html: string
+    id: string
+    set: (cv: setInterface) => void,
+}
 
 const CV = (props : propsInterface) => {
     const pdfExportComponent = useRef<any>(null)
@@ -36,7 +41,10 @@ const CV = (props : propsInterface) => {
     })
 
     const addSection = (e : any) => {
-        setSave(save+save);
+        props.set({
+            id: props.id,
+            html: props.html+props.html
+        });
     }
 
     const handleSave = (e:React.FocusEvent<HTMLInputElement>) => {
@@ -56,7 +64,7 @@ const CV = (props : propsInterface) => {
             </div>
             <Button onClick={handleExportWithMethod} className='editor--button'>Export as PDF</Button>
             </PDFExport>
-            <button onClick={addSection}>add</button>
+            {/* <button onClick={addSection}>add</button> */}
         </div>
     )
 }

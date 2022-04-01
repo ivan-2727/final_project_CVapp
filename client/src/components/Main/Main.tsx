@@ -19,7 +19,7 @@ const Main = () => {
   return (
     <div className='main'>
       <Gallery set={setCv}/>
-      {cv.id.length > 0 ? <CV html={cv.html} id={cv.id} /> : null}
+      {cv.id.length > 0 ? <CV html={cv.html} id={cv.id} set={setCv}/> : null}
     </div>
 )
 }
