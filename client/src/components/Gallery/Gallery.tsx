@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import {useDispatch, useSelector, TypedUseSelectorHook} from 'react-redux';
-import {favorite} from '../../slice/slice'
+import {favorite, removeFavorite} from '../../slice/slice'
 import { RootState } from '../../store/store';
 import './gallery.css';
 
@@ -73,6 +73,12 @@ export const Gallery = (props: propsInterface) => {
         dispatch(favorite(id));
     }
 
+    const removeFavorites = (e: React.MouseEvent<HTMLButtonElement>) => {
+        const id = (e.target as HTMLButtonElement).id; 
+
+        dispatch(removeFavorite(id));
+    }
+
 
     const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
     const favorites = useAppSelector((s) => s.state.favorites)
@@ -136,9 +142,18 @@ export const Gallery = (props: propsInterface) => {
         }
         {
             state.section==='favorites' && state.images.map((image) => contains(favorites, image)? 
+            <div className='template'>
             <img className='template--images' 
+            id={"img"+image.id.toString()}
             src={image.img} 
             alt='no'
+            onClick={(event) => {
+                props.set({
+                     id: image.id,
+                     html: image.html
+                 });
+            setState({images: state.images, section: state.section, editor: true});
+                }}
             onMouseEnter={(event) => {
                 setState({...state, mouseover: (event.target as HTMLElement).id});
             }}
@@ -146,7 +161,21 @@ export const Gallery = (props: propsInterface) => {
                 setState({...state, mouseover: ''});
                 }}>
                 
-            </img> : null)
+            </img>
+            {state.mouseover === 'img'+image.id ? <span title="Remove from favorites" className='template--button__remove' 
+                id={(image.id).toString()}
+                onMouseEnter={(event) => {
+                    
+                    setState({...state, mouseover: 'img'+(event.target as HTMLElement).id});
+                }} 
+                onMouseLeave={(event) => {
+                    setState({...state, mouseover: ''});
+                    }}
+                onClick={removeFavorites}>
+                   &#10006;
+                </span> : null} 
+            </div>
+            : null)
         }
     </section>
         

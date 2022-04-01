@@ -8,10 +8,11 @@ import { PDFExport, savePDF } from '@progress/kendo-react-pdf'
 
 import './cv.css'
 
-interface propsInterface {
+interface propsInterface { 
     html: string
     id: string
 }
+
 
 const CV = (props : propsInterface) => {
     const pdfExportComponent = useRef<any>(null)

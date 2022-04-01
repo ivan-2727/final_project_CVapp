@@ -34,6 +34,9 @@ export const loginSlice = createSlice({
   reducers: {
     favorite: (state, action) => {
       state.favorites.push(action.payload);
+    }, 
+    removeFavorite: (state, action) => {
+      state.favorites = state.favorites.filter((id) => id !== action.payload)
     }
   },
   extraReducers: (builder) => {
@@ -45,6 +48,6 @@ export const loginSlice = createSlice({
   },
     }) 
 
-export const {favorite} = loginSlice.actions
+export const {favorite, removeFavorite} = loginSlice.actions
 export const loginActions = loginSlice.actions
 export default loginSlice.reducer

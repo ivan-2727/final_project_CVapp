@@ -32,6 +32,13 @@
   position: absolute;
   cursor: pointer;
   font-size: xx-large;
+  left: 1em;
+}
+.template--button__remove{
+  position: absolute;
+  cursor: pointer;
+  font-size: xx-large;
+  left:7em ;
 }
 
 .template--list__editor {
