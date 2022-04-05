@@ -10,12 +10,37 @@ app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser()); 
 
-app.post('/login', async (req, res) => {
+app.get('/login/:uid', async (req, res) => {
     try {
         console.log(req.body); 
-        const name = await db.getUser(req.body.username, req.body.password);
+        const name = await db.getUser(req.params.uid);
         return res.status(200).json(name);
     } catch (error) {
+        return res.status(404).json({
+        message: error.message,
+        });
+    }       
+})
+app.post('/login/:uid', async (req, res) => {
+    try {
+        console.log(req.body); 
+        const name = await db.createUser(req.params.uid);
+        return res.status(200).json(name);
+    } catch (error) {
+        return res.status(404).json({
+        message: error.message,
+        });
+    }       
+})
+
+app.post('/favorite/:id', async (req, res) => {
+    try {
+        console.log('/////req.body',req.body); 
+        const favourite = await db.setFavorites(req.params.id, req.body);
+        console.log('//////favoritesInServer', favourite)
+        return res.status(200).json(favourite);
+    } catch (error) {
+        console.log("ERROR ////////////////////", error);
         return res.status(404).json({
         message: error.message,
         });

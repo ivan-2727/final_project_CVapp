@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import {useDispatch, useSelector, TypedUseSelectorHook} from 'react-redux';
-import {favorite, removeFavorite} from '../../slice/slice'
+import { setFavorite } from '../../slice/slice'
 import { RootState } from '../../store/store';
 import './gallery.css';
 
@@ -44,8 +44,8 @@ export const Gallery = (props: propsInterface) => {
         section: 'templates',
         editor: false
     }); 
+    const [favoriteState, setStateFavorite] = useState([])
         
-    
     const fecter = async () => {
     fetch(`http://localhost:8000/images`, {
     method: 'GET',
@@ -65,24 +65,35 @@ export const Gallery = (props: propsInterface) => {
 
     useEffect(() => {
         fecter();
-    }, []); 
+    }, []);
+    
+    const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
+    let favorites = useAppSelector((s) => s.state.favorites);
+    const uid = useAppSelector((s) => s.state.uid);
 
     const addFavorites = (e: React.MouseEvent<HTMLButtonElement>) => {
+        console.log('////before',favorites)
         const id = (e.target as HTMLButtonElement).id; 
-
-        dispatch(favorite(id));
+        const array:any = favorites.concat([id]); 
+        console.log('////after',array)
+        dispatch(setFavorite({
+            uid: uid,
+            favorite: array
+        }));
     }
 
     const removeFavorites = (e: React.MouseEvent<HTMLButtonElement>) => {
         const id = (e.target as HTMLButtonElement).id; 
+        
+        favorites = favorites.filter(favId => favId!=id);
 
-        dispatch(removeFavorite(id));
+        dispatch(setFavorite({
+            uid: uid,
+            favorite: favorites
+        }));
     }
 
-
-    const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
-    const favorites = useAppSelector((s) => s.state.favorites)
-
+    
   return (
     <nav>
      <ul className='menu'>

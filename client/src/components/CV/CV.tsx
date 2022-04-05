@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useRef} from 'react'
 import {useDispatch, useSelector, TypedUseSelectorHook} from 'react-redux';
-import {favorite} from '../../slice/slice'
+// import {favorite} from '../../slice/slice'
 import { RootState } from '../../store/store';
 
 import { Button } from '@progress/kendo-react-buttons'

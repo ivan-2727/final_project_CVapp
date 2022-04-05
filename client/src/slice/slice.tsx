@@ -2,52 +2,102 @@ import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
 
 interface stateInterface { 
   login: boolean,
-  username: string,
+  uid: string,
   favorites: string[]
 } 
 interface Iarg{
-    username: string, 
-    password: string
+    uid: string,   
+    favorite?: string[],
 }
+
 export const fetchUser = createAsyncThunk(
   'users/fetchByIdStatus',
   async (arg: Iarg) => {
-    const data = {username: arg.username, password: arg.password}
-    const fetchData = await fetch(`http://localhost:8000/login`, {
-          method: 'POST', 
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(data),
-        })
-    console.log(fetchData);
-    if (fetchData.status !== 200) { throw new Error(fetchData.statusText) }
-    const json = await fetchData.json()
-    return json
+    try {
+      const data = {uuid: arg.uid}
+      const fetchData = await fetch(`http://localhost:8000/login/${arg.uid}`)
+      const json = await fetchData.json()
+      return json
+    } catch (error:any) {
+      console.log(error.message)
+    }
   }
 )
 
-const initialState: stateInterface = { login: false, username: '', favorites: [] }
+export const createUser = createAsyncThunk(
+  'users/createByIdStatus',
+  async (arg: Iarg) => {
+    
+    try {
+      const data = {uuid: arg.uid}
+      const createData = await fetch(`http://localhost:8000/login/${arg.uid}`, {
+        method: 'POST', 
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data),
+      })
+      const json = await createData.json()
+      return json
+    } catch (error:any) { 
+      console.log(error.message)
+    }
+  }
+)
+
+export const setFavorite = createAsyncThunk(
+  'users/updateFavorites',
+  async (arg: Iarg) => {
+    const data = arg.favorite;
+    try {
+      const createData = await fetch(`http://localhost:8000/favorite/${arg.uid}`, {
+        method: 'POST', 
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+      console.log('createData', createData)
+      const json = await createData.json()
+      return json
+    } catch (error:any) {
+      console.log(error.message)
+    }
+  }
+)
+
+const initialState: stateInterface = { login: false, uid: '', favorites: [] }
 export const loginSlice = createSlice({ 
   name: 'Login', 
   initialState, 
   reducers: {
-    favorite: (state, action) => {
-      state.favorites.push(action.payload);
-    }, 
-    removeFavorite: (state, action) => {
-      state.favorites = state.favorites.filter((id) => id !== action.payload)
+    // favorite: (state, action) => {
+    //   state.favorites.push(action.payload);
+    // }, 
+    // removeFavorite: (state, action) => {
+    //   state.favorites = state.favorites.filter((id) => id !== action.payload);
+    // },
+    logoutUser: (state, action) => {
+      state.login = false
     }
   },
   extraReducers: (builder) => {
     builder.addCase(fetchUser.fulfilled, (state, action) => {
       console.log('///actionpayload',action.payload);
-        state.login = !state.login;
-        state.username = action.payload.username
+        state.login = true
+        state.uid = action.payload.uid
       })
-  },
-    }) 
+      .addCase(setFavorite.fulfilled, (state, action) => {
+        console.log('///actionpayload setFavorite',action.payload);
+          state.favorites = action.payload.value.favorites
+        })
+      },
+  }) 
 
-export const {favorite, removeFavorite} = loginSlice.actions
+  // GALLERY COMP update favorite(add, dlete) => setFavorite reducer => update mongo 
+  // => return mongo => builder.addCase(setFavorite.fulfilled => state => 
+  //   GALLERY COMP upidate favoreite (add delete ) => 
+
+// export const {favorite, removeFavorite} = loginSlice.actions
 export const loginActions = loginSlice.actions
 export default loginSlice.reducer
