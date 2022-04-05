@@ -86,10 +86,11 @@ export const loginSlice = createSlice({
       console.log('///actionpayload',action.payload);
         state.login = true
         state.uid = action.payload.uid
+        state.favorites = action.payload.favorites
       })
       .addCase(setFavorite.fulfilled, (state, action) => {
         console.log('///actionpayload setFavorite',action.payload);
-          state.favorites = action.payload.value.favorites
+          state.favorites = action.payload.favorites
         })
       },
   }) 

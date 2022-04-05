@@ -26,7 +26,7 @@ const createUser = async (uid) => {
     const client = new MongoClient(url, { useUnifiedTopology: true }); 
     try {
       await client.connect();
-      user = await client.db(db).collection(clcnName).insertOne({ uid: uid });
+      user = await client.db(db).collection(clcnName).insertOne({ uid: uid , favorites: [] });
       console.log('created from mongo/////', user)
     } 
     finally {
@@ -36,27 +36,30 @@ const createUser = async (uid) => {
 }; 
 const setFavorites = async (userId, favorites ) => {
   let user; 
+  let updatedUser;
   const clcnName = 'cvBuilder_login';
   const client = new MongoClient(url, { useUnifiedTopology: true }); 
   console.log('userid', userId)
   console.log('favorites', favorites)
-  const query = { uid : userId };
+  // const query = { uid : userId };
   // Set some fields in that document
-  const updateFavorites = {
-    "$set": {
-      "favorites": favorites
-    }
-  };  
+  // const updateFavorites = {
+  //   "$set": {
+  //     "favorites": favorites
+  //   },
+  //   { new: true }
+  // };  
   try {
     await client.connect();
-    user = await client.db(db).collection(clcnName).findOneAndUpdate(query, updateFavorites)
-    console.log('user', user.value.favorites)
+    user = await client.db(db).collection(clcnName).findOneAndUpdate({ uid : userId }, { $set: { favorites: favorites }}, { returnNewDocument: true })
+    updatedUser = await client.db(db).collection(clcnName).findOne({ uid : userId })
     // if(!user) throw new Error('Problem with images');
+    console.log('updatedUser', updatedUser)
   } 
   finally {
     await client.close();
   } 
-  return user;
+  return updatedUser;
 };
 
 const getImages = async () => {

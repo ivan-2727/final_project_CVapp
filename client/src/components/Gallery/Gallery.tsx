@@ -44,7 +44,6 @@ export const Gallery = (props: propsInterface) => {
         section: 'templates',
         editor: false
     }); 
-    const [favoriteState, setStateFavorite] = useState([])
         
     const fecter = async () => {
     fetch(`http://localhost:8000/images`, {
@@ -74,6 +73,7 @@ export const Gallery = (props: propsInterface) => {
     const addFavorites = (e: React.MouseEvent<HTMLButtonElement>) => {
         console.log('////before',favorites)
         const id = (e.target as HTMLButtonElement).id; 
+        console.log('////ID',id)
         const array:any = favorites.concat([id]); 
         console.log('////after',array)
         dispatch(setFavorite({
@@ -85,7 +85,7 @@ export const Gallery = (props: propsInterface) => {
     const removeFavorites = (e: React.MouseEvent<HTMLButtonElement>) => {
         const id = (e.target as HTMLButtonElement).id; 
         
-        favorites = favorites.filter(favId => favId!=id);
+        favorites = favorites.filter(favId => favId!==id);
 
         dispatch(setFavorite({
             uid: uid,
