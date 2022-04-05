@@ -15,9 +15,9 @@
   border-width: 8px 0 2px 0;
 }
 
-[contenteditable="true"]:focus {
+/* [contenteditable="true"]:focus {
   outline: none;
-}
+} */
 
 .editor {
   font-size: 0.9em;
@@ -39,7 +39,7 @@
   border-radius: 12px;
 }
 /*-----------------------------------------Template id=0 --------------------------------------------*/
-#id0 #inner {
+#id0 .inner {
   line-height: 1.185
 }
 
@@ -93,14 +93,14 @@
 }
 /*-----------------------------------------Template id=1 --------------------------------------------*/
 
-#id1 #page-wrap {
+#id1 .page-wrap {
   font: 1.6em Helvetica, Sans-Serif;
   background: url(https://res.cloudinary.com/dh2zk8qgr/image/upload/v1648728701/noise_zxiyop.jpg);
 }
 #id1 .clear {
   clear: both;
 }
-#id1 #page-wrap {
+#id1 .page-wrap {
   /* margin: 10px auto 10px; */
 }
 #id1 #pic {

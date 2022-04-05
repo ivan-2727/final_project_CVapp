@@ -92,7 +92,7 @@ export const Gallery = (props: propsInterface) => {
             favorite: favorites
         }));
     }
-
+    const savedInStore:any = useAppSelector((s) => s.state.saved)
     
   return (
     <nav>
@@ -103,8 +103,14 @@ export const Gallery = (props: propsInterface) => {
                 section: 'templates',
                 editor: state.editor
             })
-        }} className='menu--element'>Templates</li>
-        <li className='menu--element'>Saved</li>
+        }} className='menu--element'  >Templates</li>
+        <li className='menu--element' onClick={(e) => {
+            setState({
+                images: state.images,
+                section: 'saved',
+                editor: state.editor
+            })
+        }}>Saved</li>
         <li onClick={(e) => {
             setState({
                 images: state.images,
@@ -150,6 +156,24 @@ export const Gallery = (props: propsInterface) => {
                    &#11088;
                 </span> : null}
                 </div>})
+        }
+        {
+            state.section==='saved' && savedInStore.map((e:any) =>  
+            <div className='template'>
+            <img className='template--images' 
+            id={"img"+e.ogTempalte}
+            src = {state.images[state.images.findIndex(i => i.id === e.ogTempalte)].img}
+            alt='no'
+            onClick={(event) => {
+                props.set({
+                     id: e.ogTempalte,
+                     html: e.html
+                 });
+            setState({images: state.images, section: state.section, editor: true});
+                }}>   
+            </img>
+            </div>
+            )
         }
         {
             state.section==='favorites' && state.images.map((image) => contains(favorites, image)? 

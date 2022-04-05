@@ -1,6 +1,6 @@
 const { MongoClient } = require('mongodb');
-const { v4: uuidv4 } = require('uuid');
-const generateCartId = () => uuidv4();
+// const { v4: uuidv4 } = require('uuid');
+// const generateCartId = () => uuidv4();
 require('dotenv').config({ path: './mongodb.env' });
 
 const url = `mongodb+srv://${process.env.USERNAME}:${process.env.PASSWORD}@cvbuildercluster.mv3ep.mongodb.net/`
@@ -26,7 +26,7 @@ const createUser = async (uid) => {
     const client = new MongoClient(url, { useUnifiedTopology: true }); 
     try {
       await client.connect();
-      user = await client.db(db).collection(clcnName).insertOne({ uid: uid , favorites: [] });
+      user = await client.db(db).collection(clcnName).insertOne({ uid: uid , favorites: [], saved: []});
       console.log('created from mongo/////', user)
     } 
     finally {
@@ -34,6 +34,7 @@ const createUser = async (uid) => {
     } 
     return user;
 }; 
+
 const setFavorites = async (userId, favorites ) => {
   let user; 
   let updatedUser;
@@ -56,6 +57,36 @@ const setFavorites = async (userId, favorites ) => {
     // if(!user) throw new Error('Problem with images');
     console.log('updatedUser', updatedUser)
   } 
+  finally {
+    await client.close();
+  } 
+  return updatedUser;
+};
+
+const setSaved = async (userId, saved) => {
+  let user; 
+  let updatedUser;
+  const clcnName = 'cvBuilder_login';
+  const client = new MongoClient(url, { useUnifiedTopology: true }); 
+  console.log('userid', userId)
+  console.log('saved', saved)  
+  try {
+    await client.connect();
+    // user = await client.db(db).collection(clcnName).findOneAndUpdate({ uid : userId , saved:[{tid: saved.tid}]}, { $set: { tid: saved.tid, html: saved.html }}, { returnNewDocument: true })
+    // user = await client.db(db).collection(clcnName).updateOne({ "uid" : userId, "saved.tid": saved.tid },{$set: { 'saved.$.tid':  saved.tid, "saved.$.html": saved.html }},{ upsert: true })
+    // ,{$set : {"saved.$.html" : "saved.html"}}
+    const exist = await client.db(db).collection(clcnName).findOne({ uid : userId , 'saved.tid': saved.tid})
+    console.log('////exist', exist);
+    if(exist){
+      user = await client.db(db).collection(clcnName).findOneAndUpdate({ uid : userId, 'saved.tid': saved.tid}, { $set: { 'saved.$.tid': saved.tid, 'saved.$.html': saved.html, 'saved.$.ogTempalte': saved.ogTempalte }}, { returnNewDocument: true })
+      console.log('//////user exist', user);
+    }else{
+      user = await client.db(db).collection(clcnName).findOneAndUpdate({ uid : userId}, { $push: { saved:{ tid: saved.tid, html: saved.html, ogTempalte: saved.ogTempalte }}}, { returnNewDocument: true })
+      console.log('//////user not exist', user);
+    }
+    updatedUser = await client.db(db).collection(clcnName).findOne({ uid : userId })
+    console.log('////////User')
+  }
   finally {
     await client.close();
   } 
@@ -101,4 +132,6 @@ module.exports.createUser = createUser
 module.exports.getImages = getImages;
 module.exports.getTemp = getTemp;
 module.exports.setFavorites = setFavorites;
+module.exports.setSaved= setSaved;
+
 

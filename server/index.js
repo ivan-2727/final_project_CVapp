@@ -47,6 +47,19 @@ app.post('/favorite/:id', async (req, res) => {
     }       
 })
 
+app.post('/saved/:id', async (req, res) => {
+    try {
+        console.log('/////req.body',req.body); 
+        const saved = await db.setSaved(req.params.id, req.body);
+        return res.status(200).json(saved);
+    } catch (error) {
+        console.log("ERROR ////////////////////", error);
+        return res.status(404).json({
+        message: error.message,
+        });
+    }       
+})
+
 app.get('/images', async (req, res) => {
     try {
         console.log(req.body); 

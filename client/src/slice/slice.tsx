@@ -3,11 +3,15 @@ import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
 interface stateInterface { 
   login: boolean,
   uid: string,
-  favorites: string[]
+  favorites: string[],
+  saved: string[]
 } 
 interface Iarg{
     uid: string,   
+    tid?: string,
     favorite?: string[],
+    ogTempalte?: string,
+    html?: string
 }
 
 export const fetchUser = createAsyncThunk(
@@ -29,7 +33,7 @@ export const createUser = createAsyncThunk(
   async (arg: Iarg) => {
     
     try {
-      const data = {uuid: arg.uid}
+      const data = {uuid: arg.tid}
       const createData = await fetch(`http://localhost:8000/login/${arg.uid}`, {
         method: 'POST', 
         headers: {
@@ -65,8 +69,29 @@ export const setFavorite = createAsyncThunk(
     }
   }
 )
+export const saveTemplate = createAsyncThunk(
+  'users/updateSaved',
+  async (arg: Iarg) => {
+    const data = {html: arg.html, tid: arg.tid, ogTempalte: arg.ogTempalte}
+    console.log('data', data)
+    try {
+      const createData = await fetch(`http://localhost:8000/saved/${arg.uid}`, {
+        method: 'POST', 
+        headers: {
+          'Content-Type': 'application/json' 
+        },
+        body: JSON.stringify(data)
+      })
+      console.log('createData', createData)
+      const json = await createData.json()
+      return json
+    } catch (error:any) {
+      console.log(error.message)
+    }
+  }
+)
 
-const initialState: stateInterface = { login: false, uid: '', favorites: [] }
+const initialState: stateInterface = { login: false, uid: '', favorites: [], saved: [] }
 export const loginSlice = createSlice({ 
   name: 'Login', 
   initialState, 
@@ -83,16 +108,19 @@ export const loginSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(fetchUser.fulfilled, (state, action) => {
-      console.log('///actionpayload',action.payload);
         state.login = true
         state.uid = action.payload.uid
         state.favorites = action.payload.favorites
+        state.saved = action.payload.saved
       })
       .addCase(setFavorite.fulfilled, (state, action) => {
-        console.log('///actionpayload setFavorite',action.payload);
           state.favorites = action.payload.favorites
         })
-      },
+      .addCase(saveTemplate.fulfilled, (state, action) => {
+          console.log('saved, saved', action.payload.saved)
+          state.saved = action.payload.saved
+        })
+      }
   }) 
 
   // GALLERY COMP update favorite(add, dlete) => setFavorite reducer => update mongo 
