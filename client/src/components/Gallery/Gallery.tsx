@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react'
 import {useDispatch, useSelector, TypedUseSelectorHook} from 'react-redux';
 import { setFavorite } from '../../slice/slice'
 import { RootState } from '../../store/store';
+import { useCookies } from "react-cookie";
 import './gallery.css';
 
 interface cvInterface {
@@ -92,33 +93,40 @@ export const Gallery = (props: propsInterface) => {
             favorite: favorites
         }));
     }
-    const savedInStore:any = useAppSelector((s) => s.state.saved)
-    
+    const savedInStore:any = useAppSelector((s) => s.state.saved);
+
+    const [cookie, setCookie] = useCookies(); 
+    const handleLogout = () => {
+        console.log('in nav compnewth');
+        setCookie('login', ''); 
+      }
+
   return (
     <nav>
-     <ul className='menu'>
-        <li onClick={(e) => {
+     <div className='menu'>
+        <button onClick={(e) => {
             setState({
                 images: state.images,
                 section: 'templates',
                 editor: state.editor
             })
-        }} className='menu--element'  >Templates</li>
-        <li className='menu--element' onClick={(e) => {
+        }} className='menu--element'  >Templates</button>
+        <button className='menu--element' onClick={(e) => {
             setState({
                 images: state.images,
                 section: 'saved',
                 editor: state.editor
             })
-        }}>Saved</li>
-        <li onClick={(e) => {
+        }}>Saved</button>
+        <button onClick={(e) => {
             setState({
                 images: state.images,
                 section: 'favorites',
                 editor: state.editor
             })
-        }} className='menu--element'>Favorites</li>
-    </ul>
+        }} className='menu--element'>Favorites</button>
+        <button className='logout__button' onClick={handleLogout} >Log out</button>
+    </div>
     
     <section className={state.editor? 'template--list__editor' : 'template--list'}>
         {

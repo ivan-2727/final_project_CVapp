@@ -43,7 +43,11 @@
 
 .template--list__editor {
   width: 38em;
-  background-color: #848484;
+  padding: 1em;
+  background-color: #a4a1a1;
+  margin-top: 0;
+  margin-left: 1rem;
+  border-radius: 10px;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -51,18 +55,24 @@
   height:63em;
 }
 .template--list__editor .template {
-  height: 25em;
-  margin: 1em;
+  height: 25rem;
+  margin: 0.05em;
 }
 .menu {
-  display: flex;
-  flex-direction: row;
-  list-style: none;
+  width: 100%;
 }
-.menu--element {
+
+.menu--element, .logout__button {
   padding: 0.5em;
   font-family: "Roboto Mono", monospace;
   font-weight: 800;
   margin: 1em;
   cursor: pointer;
+  border: none;
+  border-radius: 10px;
+  font-size: 120%;
+}
+
+.logout__button {
+  background-color: rgb(255, 175, 188);
 }

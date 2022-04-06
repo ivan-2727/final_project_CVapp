@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import CV from '../CV/CV'
 import {Gallery} from '../Gallery/Gallery'
+import UploadImage from '../UploadImage/UploadImage'
 import './main.css'
 
 interface cvInterface {
@@ -20,12 +21,14 @@ const Main = () => {
     html: ''
   });
 
+  const [upload, setUpload] = useState <string> (''); 
+
   const[templateId, setTemplateId] = useState<templateInterface>({tid:''})
-  
 
   return (
     <div className='main'>
       <Gallery set={setCv}/>
+      <UploadImage upload={setCv} cv={cv}/>
       {cv.id.length > 0 ? <CV html={cv.html} id={cv.id} set={setCv} templateId={templateId.tid} setTemplateId={setTemplateId}/> : null}
     </div>
 )

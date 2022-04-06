@@ -15,8 +15,9 @@ const Nav = () => {
 
   return (
     <nav className='nav--outer'>
-        <span className="navbar">CV Builder</span>
-       <span> <button className="button__logout" onClick={handleLogout}>Log out</button></span>
+        <span className="navbar">
+          <img src="./Resumate.@3x.png" alt="" />
+        </span>
     </nav>
 
   )

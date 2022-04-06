@@ -3,6 +3,8 @@ import {createUser } from '../../slice/slice';
 import { useDispatch } from 'react-redux';
 import { fetchUser } from '../../slice/slice';
 import './login.css'
+import logo from './logo2.jpeg';
+
 import {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
@@ -41,7 +43,6 @@ const Login = () => {
             dispatch(createUser({
               uid: user.user.uid
             }));
-            alert(`User created for ${regEmail}`)
             setRegPage(false)
             console.log(user);
           } catch (error:any) {
@@ -75,9 +76,8 @@ const Login = () => {
 
     return (
         <>
-        <h1 className='login__header'>Welcome to CV builder!</h1>
-
-        
+        <h1 className='login__header'>Welcome to Resumate!</h1>
+        <h2 className='description'> This is graduation project at Salt JSFS-2022 by team CodeKraken. On our website, the user can work with various CV templates &#8212; edit them, save favorites, and download the resulting CVs in pdf format.</h2>
         <section className='login__wrapper'>
         <div className='login'> 
             <input placeholder='Username' className='login__username--input'onChange={(e) => {setEmail(e.target.value)} }></input>
@@ -89,6 +89,7 @@ const Login = () => {
             <button className='login__button' onClick={(e) => {e.preventDefault(); setRegPage(true);}}>Register new user</button>
         </div>
         </section>
+        <img src={logo} className='logo'></img>
         {regPage && 
         <div className='popup-box'>
           <div className='box'>
@@ -98,7 +99,7 @@ const Login = () => {
           <input placeholder='Password'type="password" className='login__password--input'onChange={(e) => {setRegPassword(e.target.value)}}></input>
           <br></br>
           <button className='login__button' onClick={register}>Submit</button>
-          <span className="close-icon" onClick={()=>{setRegPage(false);}}>x</span>
+          <span className="close-icon" onClick={()=>{setRegPage(false);}}>&#215;</span>
           </div>
         </div> 
         }
