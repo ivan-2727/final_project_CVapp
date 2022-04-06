@@ -1,2 +1,2 @@
-web: bin/boot
-api: node api/index.js
+web:npm start
+api:node server/index.js

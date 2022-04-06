@@ -33,8 +33,6 @@ const Login = () => {
 
     const register = async () => {
         try {
-          alert(regEmail)
-          alert(regPassword)
             const user = await createUserWithEmailAndPassword(
               auth,
               regEmail,
@@ -43,6 +41,8 @@ const Login = () => {
             dispatch(createUser({
               uid: user.user.uid
             }));
+            alert(`User created for ${regEmail}`)
+            setRegPage(false)
             console.log(user);
           } catch (error:any) {
             console.log(error.message);
@@ -95,7 +95,7 @@ const Login = () => {
             <h2>Register here!</h2>
           <input placeholder='Username' className='login__username--input'onChange={(e) => {setRegEmail(e.target.value)} }></input>
           <br></br>
-          <input placeholder='Password'type="password" className='login__password--input'onChange={(e) => {setPassword(e.target.value)}}></input>
+          <input placeholder='Password'type="password" className='login__password--input'onChange={(e) => {setRegPassword(e.target.value)}}></input>
           <br></br>
           <button className='login__button' onClick={register}>Submit</button>
           <span className="close-icon" onClick={()=>{setRegPage(false);}}>x</span>

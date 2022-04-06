@@ -46,7 +46,7 @@ export const Gallery = (props: propsInterface) => {
     }); 
         
     const fecter = async () => {
-    fetch(`http://localhost:8000/images`, {
+    fetch(`https://boiling-temple-13996.herokuapp.com/images`, {
     method: 'GET',
         headers: {
             'Content-Type': 'application/json'

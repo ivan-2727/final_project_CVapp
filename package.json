@@ -1,0 +1,26 @@
+{
+  "name": "final_project_CVapp",
+  "version": "1.0.0",
+  "description": "Final project of Salt Winter 2022 by team CodeKraken. An app which allows to create a CV from template.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "cd server && npm install && npm start",
+    "build": "cd client && npm install && npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ivan-2727/final_project_CVapp.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ivan-2727/final_project_CVapp/issues"
+  },
+  "engines": {
+    "node": "14.16.0"
+  },
+  "homepage": "https://github.com/ivan-2727/final_project_CVapp#readme"
+}
+

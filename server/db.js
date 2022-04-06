@@ -26,7 +26,9 @@ const createUser = async (uid) => {
     const client = new MongoClient(url, { useUnifiedTopology: true }); 
     try {
       await client.connect();
+      console.log('user connected');
       user = await client.db(db).collection(clcnName).insertOne({ uid: uid , favorites: [], saved: []});
+      console.log('user created');
       console.log('created from mongo/////', user)
     } 
     finally {

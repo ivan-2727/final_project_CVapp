@@ -19,7 +19,7 @@ export const fetchUser = createAsyncThunk(
   async (arg: Iarg) => {
     try {
       const data = {uuid: arg.uid}
-      const fetchData = await fetch(`http://localhost:8000/login/${arg.uid}`)
+      const fetchData = await fetch(`https://boiling-temple-13996.herokuapp.com/login/${arg.uid}`)
       const json = await fetchData.json()
       return json
     } catch (error:any) {
@@ -34,7 +34,7 @@ export const createUser = createAsyncThunk(
     
     try {
       const data = {uuid: arg.tid}
-      const createData = await fetch(`http://localhost:8000/login/${arg.uid}`, {
+      const createData = await fetch(`https://boiling-temple-13996.herokuapp.com/login/${arg.uid}`, {
         method: 'POST', 
         headers: {
           'Content-Type': 'application/json'
@@ -54,7 +54,7 @@ export const setFavorite = createAsyncThunk(
   async (arg: Iarg) => {
     const data = arg.favorite;
     try {
-      const createData = await fetch(`http://localhost:8000/favorite/${arg.uid}`, {
+      const createData = await fetch(`https://boiling-temple-13996.herokuapp.com/favorite/${arg.uid}`, {
         method: 'POST', 
         headers: {
           'Content-Type': 'application/json'
@@ -75,7 +75,7 @@ export const saveTemplate = createAsyncThunk(
     const data = {html: arg.html, tid: arg.tid, ogTempalte: arg.ogTempalte}
     console.log('data', data)
     try {
-      const createData = await fetch(`http://localhost:8000/saved/${arg.uid}`, {
+      const createData = await fetch(`https://boiling-temple-13996.herokuapp.com/saved/${arg.uid}`, {
         method: 'POST', 
         headers: {
           'Content-Type': 'application/json' 
@@ -114,6 +114,7 @@ export const loginSlice = createSlice({
         state.saved = action.payload.saved
       })
       .addCase(setFavorite.fulfilled, (state, action) => {
+        // console.log('action.payload.', action.payload.favorites)
           state.favorites = action.payload.favorites
         })
       .addCase(saveTemplate.fulfilled, (state, action) => {
