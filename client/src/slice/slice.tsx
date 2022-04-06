@@ -102,9 +102,9 @@ export const loginSlice = createSlice({
     // removeFavorite: (state, action) => {
     //   state.favorites = state.favorites.filter((id) => id !== action.payload);
     // },
-    logoutUser: (state, action) => {
-      state.login = false
-    }
+    login_logout: (state, action) => {
+      state.login = action.payload; 
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchUser.fulfilled, (state, action) => {
@@ -128,5 +128,5 @@ export const loginSlice = createSlice({
   //   GALLERY COMP upidate favoreite (add delete ) => 
 
 // export const {favorite, removeFavorite} = loginSlice.actions
-export const loginActions = loginSlice.actions
+export const {login_logout} = loginSlice.actions
 export default loginSlice.reducer

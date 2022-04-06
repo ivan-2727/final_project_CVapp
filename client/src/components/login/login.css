@@ -23,7 +23,7 @@
 }
 
 .login {
-  margin-top: 20em;
+  margin-top: 3em;
   text-align: center;
   padding-top: 5em;
   padding-bottom: 5em;
@@ -34,8 +34,10 @@
 }
 
 .login__header {
+  display: flex;
+  justify-content: center;
   font-size: 4em;
-  margin-bottom: 0.5em;
+  margin-bottom: 1em;
 }
 
 .login__username {
@@ -132,6 +134,13 @@ input:hover {
   top: 0;
   border-radius: 10px;
 }
+.errorlogin{
+  display: flex;
+  justify-content: center;
+  text-decoration: italic;
+  color: red;
+  font-size: 1em;
+}
 
 @keyframes glowing {
   0% {
@@ -143,4 +152,45 @@ input:hover {
   100% {
     background-position: 0 0;
   }
+}
+
+
+.popup-box {
+  position: fixed;
+  background: #363434f3;
+  width: 100%;
+  height: 100vh;
+  top: 0;
+  left: 0;
+}
+
+.box {
+  position: relative;
+  width: 40%;
+  margin: 0 auto;
+  height: auto;
+  max-height: 70vh;
+  margin-top: calc(100vh - 85vh - 20px);
+  background: #fff;
+  border-radius: 4px;
+  padding: 20px;
+  border: 1px solid #999;
+  overflow: auto;
+  text-align: center
+}
+
+.close-icon {
+  content: 'x';
+  cursor: pointer;
+  position: fixed;
+  right: calc(30% - 10px);
+  top: calc(100vh - 85vh - 33px);
+  background: #ededed;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  line-height: 20px;
+  text-align: center;
+  border: 1px solid #999;
+  font-size: 40px;
 }

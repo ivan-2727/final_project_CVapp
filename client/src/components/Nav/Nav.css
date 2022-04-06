@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
+
 .navbar {
   background-color: #0c0c0c;
   width: 100%;
@@ -6,5 +7,12 @@
   color: #848484;
   padding: 1em;
   font-family: "Press Start 2P", cursive;
+  font-size: 1.5em;
+  margin-top: 1em;
+}
+.button__logout{
+  float: right;
+  margin-right: 2em;
+  background-color: rgb(180, 56, 56);
   font-size: 1.5em;
 }

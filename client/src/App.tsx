@@ -7,10 +7,23 @@ import {store} from "./store/store";
 import { RootState } from './store/store';
 import { Home } from './components/Home/Home';
 import Main from './components/Main/Main';
+import { useCookies } from "react-cookie";
+import {useDispatch} from 'react-redux'; 
+import {login_logout} from './slice/slice'
 
 //const login = useAppSelector<boolean>((login) => login.login);
 
 function App() {
+
+  const dispatch = useDispatch();
+
+  const [cookie, setCookie] = useCookies(); 
+  if (cookie.login) {
+    if (cookie.login.length > 0 ) dispatch(login_logout(true)); 
+    else dispatch(login_logout(false));
+  }
+  else dispatch(login_logout(false)); 
+
   const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
   
   const login = useAppSelector <boolean> ((state) => state.state.login); 
