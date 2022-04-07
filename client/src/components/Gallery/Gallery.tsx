@@ -110,7 +110,7 @@ export const Gallery = (props: propsInterface) => {
 
   return (
     <nav>
-     <div className='menu'>
+     <div className={state.editor? 'menu--editor' : 'menu'}>
         <button onClick={(e) => {
             
             setState({
@@ -118,8 +118,8 @@ export const Gallery = (props: propsInterface) => {
                 section: 'templates',
                 editor: state.editor
             })
-        }} className='menu--element'  >Templates</button>
-        <button className='menu--element' onClick={(e) => {
+        }} className={state.section==='templates'? 'menu--element menu--element--template': 'menu--element'} >Templates</button>
+        <button className={state.section==='saved'? 'menu--element menu--element--saved': 'menu--element'} onClick={(e) => {
             setState({
                 images: state.images,
                 section: 'saved',
@@ -132,8 +132,8 @@ export const Gallery = (props: propsInterface) => {
                 section: 'favorites',
                 editor: state.editor
             })
-        }} className='menu--element'>Favorites</button>
-        <button className='logout__button' onClick={handleLogout} >Log out</button>
+        }} className={state.section==='favorites'? 'menu--element menu--element--favorites': 'menu--element'}>Favorites</button>
+        <button className={state.editor? 'logout__button--editor' : 'logout__button'} onClick={handleLogout} >Log out</button>
     </div>
     
     <section className={state.editor? 'template--list__editor' : 'template--list'}>
@@ -224,7 +224,7 @@ export const Gallery = (props: propsInterface) => {
                     setState({...state, mouseover: ''});
                     }}
                 onClick={removeFavorites}>
-                  &#10060;	
+                  &#10006;	
                 </span> : null} 
             </div>
             : null)

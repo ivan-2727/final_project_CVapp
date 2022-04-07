@@ -39,9 +39,9 @@ const UploadImage = (props : Ifunc) => {
             }
         }
     }
-    return <div>
-        <div>Upload your image</div> 
-        <input type="file" onChange={handleFile}></input>
+    return <div className='upload-image'>
+        <div className='upload__header'>Upload your image</div> 
+        <input className='upload__input' type="file" onChange={handleFile}></input>
     </div>
 }
 

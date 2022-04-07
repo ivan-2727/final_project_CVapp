@@ -1,0 +1,13 @@
+.footer{
+    height: 3em;
+    background-color: #f1f7ff;
+    bottom: 0;
+    width: 100%;
+    position:fixed;
+    }
+    .footer p{
+      font-family: 'Montserrat', sans-serif;
+      color: #999999;
+      margin-left: 2em;
+      padding-top: 1em;
+    }

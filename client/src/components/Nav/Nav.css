@@ -1,6 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
-
-.navbar {
+.nav--outer{
+  background: url('./header.png');
+  margin: 0;
+  height: 5em;
+}
+/* .navbar {
   background-color: #0c0c0c;
   width: 100%;
   height: 3em;
@@ -15,4 +19,10 @@
   margin-right: 2em;
   background-color: rgb(180, 56, 56);
   font-size: 1.5em;
+} */
+.logo{
+  width: 13em;
+  margin: 1.5em 3em;
+  top: 2em;
+  display: inline;
 }

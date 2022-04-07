@@ -2,6 +2,7 @@ import { useDispatch } from 'react-redux'
 import { login_logout } from '../../slice/slice';
 import { useCookies } from "react-cookie";
 import'./Nav.css'
+import logo from './Resumate.@3x.png'
 
 const Nav = () => {
 
@@ -14,12 +15,12 @@ const Nav = () => {
   }
 
   return (
-    <nav className='nav--outer'>
-        <span className="navbar">
-          <img src="./Resumate.@3x.png" alt="" />
-        </span>
-    </nav>
 
+    <nav className='nav--outer'>
+    <span className="navbar">
+      <img className='logo' src={logo} alt="" />
+    </span>
+</nav>
   )
 }
 

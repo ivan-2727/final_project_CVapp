@@ -38,8 +38,12 @@ const Main = () => {
   return (
     <div className='main'>
       <Gallery set={setCv}/>
-      <UploadImage upload={setCv} cv={cv}/>
-      {cv.id.length > 0 ? <CV html={cv.html} id={cv.id} set={setCv} templateId={templateId.tid} setTemplateId={setTemplateId}/> : null}
+      {cv.id.length > 0 ? 
+      <div className='main--editor'>
+        <CV html={cv.html} id={cv.id} set={setCv} templateId={templateId.tid} setTemplateId={setTemplateId}/>
+        <UploadImage upload={setCv} cv={cv}/>
+      </div>
+       : null}
     </div>
 )
 }
