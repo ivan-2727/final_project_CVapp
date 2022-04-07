@@ -25,15 +25,14 @@ const UploadImage = (props : Ifunc) => {
     const handleFile = (event: React.ChangeEvent<HTMLInputElement>) => {
         let reader = new FileReader();
         if (event.target.files) {
-            reader.readAsDataURL(event.target.files[event.target.files.length-1]);
+            reader.readAsDataURL(event.target.files[0]);
             reader.onload = function () {
                 if (reader.result) {
                     console.log(reader.result.toString());
                     props.upload({
                         id: props.cv.id,
                         html: props.cv.html.replace(/<img src="([^\"]*)"/, `<img src="${reader.result.toString()}"`)
-                    }); 
-                }
+                    });                 }
             };
             reader.onerror = function (error) {
                 console.log('Error: ', error);

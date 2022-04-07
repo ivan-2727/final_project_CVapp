@@ -5,8 +5,8 @@ import UploadImage from '../UploadImage/UploadImage'
 import './main.css'
 
 interface cvInterface {
-  id: string,
-  html: string
+    id: string;
+    html: string;
 }
 
 interface templateInterface {
@@ -21,7 +21,17 @@ const Main = () => {
     html: ''
   });
 
-  const [upload, setUpload] = useState <string> (''); 
+
+//   const[cv, setCv] = useState <cvInterface>(():any => {
+//     const local = localStorage.getItem('cv_historyState')
+//     if(local){
+//         return local
+//     }
+//     return {
+//       id: '',    
+//       html: ''
+//     }
+// })
 
   const[templateId, setTemplateId] = useState<templateInterface>({tid:''})
 

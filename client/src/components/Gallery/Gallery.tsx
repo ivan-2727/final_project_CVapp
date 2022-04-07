@@ -1,9 +1,10 @@
 import React, {useState, useEffect} from 'react'
 import {useDispatch, useSelector, TypedUseSelectorHook} from 'react-redux';
-import { setFavorite } from '../../slice/slice'
+import { setFavorite, setloading, fetchUser } from '../../slice/slice'
 import { RootState } from '../../store/store';
 import { useCookies } from "react-cookie";
 import './gallery.css';
+import { FiStar } from "react-icons/fi";
 
 interface cvInterface {
     id: string,
@@ -45,8 +46,9 @@ export const Gallery = (props: propsInterface) => {
         section: 'templates',
         editor: false
     }); 
-        
+
     const fecter = async () => {
+    dispatch(setloading(true))
     fetch(`https://boiling-temple-13996.herokuapp.com/images`, {
     method: 'GET',
         headers: {
@@ -61,6 +63,10 @@ export const Gallery = (props: propsInterface) => {
             section: state.section,
             editor: state.editor
         });
+        dispatch(fetchUser({
+            uid: cookie.login
+        }))
+        dispatch(setloading(false));
     })}
 
     useEffect(() => {
@@ -94,6 +100,7 @@ export const Gallery = (props: propsInterface) => {
         }));
     }
     const savedInStore:any = useAppSelector((s) => s.state.saved);
+    const loading:any = useAppSelector((s) => s.state.loading);
 
     const [cookie, setCookie] = useCookies(); 
     const handleLogout = () => {
@@ -105,6 +112,7 @@ export const Gallery = (props: propsInterface) => {
     <nav>
      <div className='menu'>
         <button onClick={(e) => {
+            
             setState({
                 images: state.images,
                 section: 'templates',
@@ -129,7 +137,7 @@ export const Gallery = (props: propsInterface) => {
     </div>
     
     <section className={state.editor? 'template--list__editor' : 'template--list'}>
-        {
+        {loading ?  <div className="loader"> </div> :
            state.section==='templates' && 
            state.images.map((e) => {
                return <div className='template' key={e.id}>
@@ -161,10 +169,11 @@ export const Gallery = (props: propsInterface) => {
                     setState({...state, mouseover: ''});
                     }}
                 onClick={addFavorites}>
-                   &#11088;
+                   &#9733;
                 </span> : null}
                 </div>})
         }
+
         {
             state.section==='saved' && savedInStore.map((e:any) =>  
             <div className='template'>
@@ -181,7 +190,7 @@ export const Gallery = (props: propsInterface) => {
                 }}>   
             </img>
             </div>
-            )
+        ) 
         }
         {
             state.section==='favorites' && state.images.map((image) => contains(favorites, image)? 
@@ -215,10 +224,11 @@ export const Gallery = (props: propsInterface) => {
                     setState({...state, mouseover: ''});
                     }}
                 onClick={removeFavorites}>
-                   &#10006;
+                  &#10060;	
                 </span> : null} 
             </div>
             : null)
+            
         }
     </section>
         

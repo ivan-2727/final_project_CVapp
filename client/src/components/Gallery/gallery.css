@@ -33,12 +33,14 @@
   cursor: pointer;
   font-size: xx-large;
   left: 1em;
+  color: goldenrod
 }
 .template--button__remove{
   position: absolute;
   cursor: pointer;
   font-size: xx-large;
   left:7em ;
+  color: red
 }
 
 .template--list__editor {
@@ -75,4 +77,21 @@
 
 .logout__button {
   background-color: rgb(255, 175, 188);
+}
+
+.loader {
+  justify-content: center;
+  border: 16px solid #f3f3f3; /* Light grey */
+  border-top: 16px solid #2C2287;
+  border-bottom: 16px solid #2C2287;
+  border-radius: 50%;
+  width: 180px;
+  height: 180px;
+  margin: 7em 45em;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }

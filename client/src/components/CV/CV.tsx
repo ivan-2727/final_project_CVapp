@@ -34,43 +34,23 @@ const CV = (props : propsInterface) => {
     const contentArea = useRef<any>(null)
 
     const dispatch = useDispatch();
-    
-    const handleExportWithComponent = (e:any) => {
-        pdfExportComponent.current.save();
-    }
 
     const handleExportWithMethod = (e:any) => {
         savePDF(contentArea.current, { paperSize: 'A4' })
     }
-
-
-    const[save, setSave] = useState<string>(() => {
-        const local = localStorage.getItem('historyState_'+props.id)
-        if(local){
-            return local
-        }
-        return props.html
-    })
     
-    const addSection = (e : any) => {
-        props.set({
-            id: props.id,
-            html: props.html+props.html
-        });
-    }
     const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
-    let saved = useAppSelector((s) => s.state.saved);
     const uid = useAppSelector((s) => s.state.uid);
 
     const handleSaveDb = (e: React.MouseEvent<HTMLButtonElement>) => {
-        console.log('save.charAt(5)+save.charAt(6)', save.charAt(6)+save.charAt(7))
+        console.log('save.charAt(5)+save.charAt(6)', props.html.charAt(6)+props.html.charAt(7))
         const objSaved: Iobjectsaved = {uid: '', ogTempalte: '', tid: null, html: ''}
-        if (save.charAt(6)+save.charAt(7) === "id") {
-            objSaved.tid = /[^>]+?id="([^"]+)".*/.exec(save)
-            objSaved.html = save
+        if (props.html.charAt(6)+props.html.charAt(7) === "id") {
+            objSaved.tid = /[^>]+?id="([^"]+)".*/.exec(props.html)
+            objSaved.html = props.html
         } else {
             objSaved.tid = uuidv4(); 
-            objSaved.html = save.slice(0, 5) + ` id="${objSaved.tid}"` + save.slice(5)
+            objSaved.html = props.html.slice(0, 5) + ` id="${objSaved.tid}"` + props.html.slice(5)
             console.log('objSaved.html', objSaved.html)
             props.set({id: props.id, html:objSaved.html})
             console.log('props.html', props.html)
@@ -81,12 +61,9 @@ const CV = (props : propsInterface) => {
     }
 
     const handleSave = (e:React.FocusEvent<HTMLInputElement>) => {
-        setSave(e.currentTarget.innerHTML);
+        props.set({id: props.id, html: e.currentTarget.innerHTML});
     }
-     
-    useEffect(() => {
-        localStorage.setItem("historyState_"+props.id, save ? save : '')
-     }, [save])
+    
      
     return (
         <div className='editor'>

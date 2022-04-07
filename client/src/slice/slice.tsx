@@ -3,6 +3,7 @@ import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
 interface stateInterface { 
   login: boolean,
   uid: string,
+  loading: boolean,
   favorites: string[],
   saved: string[]
 } 
@@ -55,7 +56,7 @@ export const setFavorite = createAsyncThunk(
     const data = arg.favorite;
     try {
       const createData = await fetch(`https://boiling-temple-13996.herokuapp.com/favorite/${arg.uid}`, {
-        method: 'POST', 
+      method: 'POST', 
         headers: {
           'Content-Type': 'application/json'
         },
@@ -74,9 +75,10 @@ export const saveTemplate = createAsyncThunk(
   async (arg: Iarg) => {
     const data = {html: arg.html, tid: arg.tid, ogTempalte: arg.ogTempalte}
     console.log('data', data)
+    console.log('uid', arg.uid)
     try {
       const createData = await fetch(`https://boiling-temple-13996.herokuapp.com/saved/${arg.uid}`, {
-        method: 'POST', 
+      method: 'POST', 
         headers: {
           'Content-Type': 'application/json' 
         },
@@ -91,7 +93,7 @@ export const saveTemplate = createAsyncThunk(
   }
 )
 
-const initialState: stateInterface = { login: false, uid: '', favorites: [], saved: [] }
+const initialState: stateInterface = { login: false, loading: false, uid: '', favorites: [], saved: [] }
 export const loginSlice = createSlice({ 
   name: 'Login', 
   initialState, 
@@ -105,6 +107,9 @@ export const loginSlice = createSlice({
     login_logout: (state, action) => {
       state.login = action.payload; 
     },
+    setloading: (state, action) => {
+      state.loading = action.payload 
+    }
   },
   extraReducers: (builder) => {
     builder.addCase(fetchUser.fulfilled, (state, action) => {
@@ -113,12 +118,15 @@ export const loginSlice = createSlice({
         state.favorites = action.payload.favorites
         state.saved = action.payload.saved
       })
+      .addCase(fetchUser.pending, (state, action) => {
+        state.loading = true
+      })
       .addCase(setFavorite.fulfilled, (state, action) => {
         // console.log('action.payload.', action.payload.favorites)
           state.favorites = action.payload.favorites
         })
       .addCase(saveTemplate.fulfilled, (state, action) => {
-          console.log('saved, saved', action.payload.saved)
+          console.log('saved, saved', action.payload)
           state.saved = action.payload.saved
         })
       }
@@ -129,5 +137,5 @@ export const loginSlice = createSlice({
   //   GALLERY COMP upidate favoreite (add delete ) => 
 
 // export const {favorite, removeFavorite} = loginSlice.actions
-export const {login_logout} = loginSlice.actions
+export const {login_logout, setloading } = loginSlice.actions
 export default loginSlice.reducer
